@@ -99,3 +99,9 @@ ENV/
 
 # mypy
 .mypy_cache/
+.idea/
+carpool/__init__.py
+carpool/settings.py
+carpool/wsgi.py
+manage.py
+templates/
