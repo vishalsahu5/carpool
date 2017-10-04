@@ -2,6 +2,9 @@ from django.shortcuts import render
 from accounts.forms import UserForm, ProfileForm
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import get_user_model
+from django.contrib.auth.models import User
 
 
 def signup(request):
@@ -30,7 +33,7 @@ def signup(request):
             profile = profile_form.save(commit=False)
 
             # Set One to One relationship between
-            # UserForm and UserProfileInfoForm
+            # UserForm and ProfileForm
             profile.user = user
 
             # Now save model
@@ -51,3 +54,23 @@ def signup(request):
     # back to the signup.html file page.
     context = {'user_form': user_form, 'profile_form': profile_form}
     return render(request, 'accounts/signup.html', context)
+
+
+@login_required
+def update_profile(request):
+    if request.method == 'POST':
+        profile_form = ProfileForm(data=request.POST, instance=request.user.profile)
+        if profile_form.is_valid():
+            profile_form.save()
+            return HttpResponseRedirect(reverse('accounts:profile'))
+        else:
+            print(profile_form.errors)
+    else:
+        profile_form = ProfileForm(instance=request.user.profile)
+
+    return render(request, 'accounts/update_profile.html', {'profile_form': profile_form})
+
+
+@login_required
+def profile(request):
+    return render(request, 'accounts/profile.html', {})
