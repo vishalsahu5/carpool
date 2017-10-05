@@ -1,0 +1,30 @@
+{% extends "journeys/journey_base.html" %}
+
+{% block prejourney %}
+
+
+    <h1>{{ journey.name }}</h1>
+    <h2> Member Count: {{ journey.members.count }}</h2>
+
+    <div class="content">
+
+
+        {% if user in journey.members.all %}
+            <a href="{% url 'journeys:leave' pk=journey.pk %}" class="btn btn-lg btn-fill btn-warning"><span
+                    class="glyphicon glyphicon-remove-circle"></span> Leave</a>
+        {% else %}
+            <a href="{% url 'journeys:join' pk=journey.pk %}" class="btn btn-lg btn-fill btn-warning"><span
+                    class="glyphicon glyphicon-ok-circle"></span> Join</a>
+        {% endif %}
+
+    </div>
+
+{% endblock %}
+
+
+{% block group_content %}
+
+    <div class="col-md-8">
+        {{ journey.description }}
+    </div>
+{% endblock %}

@@ -33,11 +33,11 @@
         <ul class="nav navbar-nav navbar-right">
             {% if user.is_authenticated %}
                 {# <li><a href="{% url 'posts:create' %}" class="btn btn-simple">Post</a></li>#}
-                <li><a href="#" class="btn btn-simple">Journeys</a></li>
-                <li><a href="#" class="btn btn-simple">Create Journey</a></li>
+                <li><a href="{% url 'journeys:all' %}" class="btn btn-simple">Journeys</a></li>
+                <li><a href="{% url 'journeys:create' user_id=user.pk %}" class="btn btn-simple">Create Journey</a></li>
                 <li><a href="{% url 'accounts:logout' %}" class="btn btn-simple">Log out</a></li>
             {% else %}
-                <li><a href="#" class="btn btn-simple">Journeys</a></li>
+                <li><a href="{% url 'journeys:all' %}" class="btn btn-simple">Journeys</a></li>
                 <li><a href="{% url 'accounts:login' %}" class="btn btn-simple">Log in</a></li>
                 <li><a href="{% url 'accounts:signup' %}" class="btn btn-simple">Sign up</a></li>
             {% endif %}
