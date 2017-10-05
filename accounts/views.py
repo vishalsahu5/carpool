@@ -5,6 +5,8 @@ from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import User
+from django.http import Http404
+from journeys.models import Journey,JourneyMember
 
 
 def signup(request):
@@ -73,4 +75,18 @@ def update_profile(request):
 
 @login_required
 def profile(request):
-    return render(request, 'accounts/profile.html', {})
+    # try:
+    #     journey_user = Journey.objects.filter(created_by=username)
+    # except User.DoesNotExist:
+    #     raise Http404
+
+    # context = {'journey_user': journey_user}
+    user = User.objects.get(username=request.user.username)
+    my_journeys = Journey.objects.all().filter(created_by=user)
+
+    going_with_others = Journey.objects.all().filter(members=user)
+
+    going_with_others = set(going_with_others)-set(my_journeys)
+    print(going_with_others)
+    context = {'my_journeys': my_journeys, 'going_with_others': going_with_others}
+    return render(request, 'accounts/profile.html', context)

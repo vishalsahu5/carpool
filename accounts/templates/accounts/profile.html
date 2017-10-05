@@ -1,9 +1,38 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h2>{{ user.get_full_name }}</h2>
+    <h2>{{ user.username }}</h2>
     <ul>
         <li>Username: {{ user.username }}</li>
         <li>Location: {{ user.profile.location }}</li>
     </ul>
+	<div class="card card-with-shadow">
+		<div class="content">
+			<ul class="list-unstyled">
+				{# {% get_user_groups as user_groups %}#}
+            {% if my_journeys %}
+                <h5 class="title">Your Journeys</h5>
+                {% for journey in my_journeys %}
+				<li class="group li-with-bullet">
+					<a href="{% url 'journeys:single' pk=journey.pk %}">{{ journey.description }}</a>
+				</li>
+				{% endfor %}
+            {% else %}
+                <h3>You have no journeys !</h3>
+            {% endif %}
+
+            {% if going_with_others %}
+                <h5 class="title">You are also travelling in:</h5>
+                {% for journey in going_with_others %}
+				<li class="group li-with-bullet">
+					<a href="{% url 'journeys:single' pk=journey.pk %}">{{ journey.description }}</a>
+				</li>
+				{% endfor %}
+            {% else %}
+                <h3>You are not going with others !</h3>
+            {% endif %}
+			</ul>
+		</div>
+	</div>
+
 {% endblock %}
