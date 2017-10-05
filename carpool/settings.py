@@ -39,7 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'accounts',
     'journeys',
-    'bootstrap3'
+    'bootstrap3',
+    'location_field.apps.DefaultConfig',
+    'places',
 ]
 
 MIDDLEWARE = [
@@ -128,3 +130,8 @@ STATICFILES_DIRS = [
 
 LOGIN_REDIRECT_URL = "test"
 LOGOUT_REDIRECT_URL = "thanks"
+
+PLACES_MAPS_API_KEY = 'AIzaSyD9KddjtOZv_GEF3GKndj1y_x3nk7fUoF4'
+MAP_WIDGET_HEIGHT = 480
+MAP_OPTIONS = {}
+MARKER_OPTIONS = {}
