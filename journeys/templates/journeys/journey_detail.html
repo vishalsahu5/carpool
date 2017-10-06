@@ -3,12 +3,10 @@
 {% block prejourney %}
 
 
-    <h1>{{ journey.name }}</h1>
+    <h1 class="jumbotron">{{ journey }}</h1>
     <h2> Member Count: {{ journey.members.count }}</h2>
 
     <div class="content">
-
-
         {% if user in journey.members.all %}
             <a href="{% url 'journeys:leave' pk=journey.pk %}" class="btn btn-lg btn-fill btn-warning"><span
                     class="glyphicon glyphicon-remove-circle"></span> Leave</a>
@@ -21,10 +19,13 @@
 
 {% endblock %}
 
-
-{% block group_content %}
+{% block journey_content %}
+    <h2>Members in this journey: </h2>
+    {% for member in journey.members.all %}
+      <h2>{{ member }}</h2>
+    {% endfor %}
 
     <div class="col-md-8">
-        {{ journey.description }}
+      <h3>{{ journey.description }}</h3>
     </div>
 {% endblock %}

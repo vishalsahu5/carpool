@@ -8,3 +8,4 @@ class JourneyMemberInline(admin.TabularInline):
 
 
 admin.site.register(models.Journey)
+admin.site.register(models.JourneyMember)

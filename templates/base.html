@@ -8,8 +8,9 @@
     <link rel="stylesheet" type="text/css" href="{% static "css/bootstrap.min.css" %}"/>
 
     <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="{% static "carpool/css/master.css" %}">
     <link rel="stylesheet" type="text/css" href="{% static "css/master.css" %}">
+    {% block head %}
+    {% endblock %}
 </head>
 <body>
 
@@ -28,11 +29,15 @@
                 <li><a href="{% url 'journeys:all' %}" class="btn btn-simple">Journeys</a></li>
                 <li><a href="{% url 'accounts:login' %}" class="btn btn-simple">Log in</a></li>
                 <li><a href="{% url 'accounts:signup' %}" class="btn btn-simple">Sign up</a></li>
+
             {% endif %}
         </ul>
     </div>
 </nav>
-
+<div class="container other">
+    {% block outer %}
+    {% endblock %}
+</div>
 <div class="container mycontent">
     {% block content %}
     {% endblock %}
@@ -43,6 +48,7 @@
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <script src="{% static "js/bootstrap.min.js" %}"></script>
 <script src="{% static "carpool/js/master.js" %}"></script>
+<script src="{% static "js/stylesheet.js" %}"></script>
 </body>
 <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
 <footer>

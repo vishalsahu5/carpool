@@ -40,8 +40,9 @@ INSTALLED_APPS = [
     'accounts',
     'journeys',
     'bootstrap3',
-    'location_field.apps.DefaultConfig',
-    'places',
+    # 'location_field.apps.DefaultConfig',
+    # 'places',
+    # 'notify',
 ]
 
 MIDDLEWARE = [

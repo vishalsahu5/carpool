@@ -19,7 +19,8 @@ class Journey(models.Model):
     starting_from = models.CharField(max_length=255)
     going_to = models.CharField(max_length=255)
     description = models.TextField(blank=True, default='')
-    members = models.ManyToManyField(User, through="JourneyMember")
+    # members = models.ManyToManyField(User, through="JourneyMember")
+    members = models.ManyToManyField(User)
     created_at = models.DateTimeField(auto_now=True)
     going_date = models.DateField()
     going_time = models.TimeField()
@@ -30,14 +31,24 @@ class Journey(models.Model):
     def get_absolute_url(self):
         return reverse("journeys:single")
 
+    @classmethod
+    def add_member(cls, journey, current_user):
+        journey.members.add(current_user)
+
+    @classmethod
+    def remove_member(cls, journey, current_user):
+        journey.members.remove(current_user)
+
     def save(self, *args, **kwargs):
-        # self.created_by = User
         super().save(*args, **kwargs)
 
     class Meta:
         ordering = ["created_at"]
 
-
+# This is not used for now. We might decide to shift to it
+# at some point in future. For now, ignore it. This model is to
+# be used as a "through" in ManyToManyField. I am not using it to maintain
+# code simplicity.
 class JourneyMember(models.Model):
     journey = models.ForeignKey(Journey, related_name="memberships")
     user = models.ForeignKey(User, related_name='user_journeys')

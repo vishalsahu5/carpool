@@ -65,54 +65,68 @@ class ListJourneys(generic.ListView):
     model = Journey
 
 
-class JoinJourney(LoginRequiredMixin, generic.RedirectView):
+@login_required
+def join_journey(request, pk):
+    journey = get_object_or_404(Journey, pk=pk)
+    user = request.user
+    Journey.add_member(journey, user)
+    return HttpResponseRedirect(reverse("journeys:single", kwargs={"pk":pk}))
 
-    def get_redirect_url(self, *args, **kwargs):
-        # return reverse("journeys:single", kwargs={"slug": self.kwargs.get("slug")})
-        # send primary key pk from the templates
-        return reverse("journeys:single", kwargs={"pk": self.kwargs.get("pk")})
-
-    def get(self, request, *args, **kwargs):
-        # journeys = get_object_or_404(Journey, slug=self.kwargs.get("slug"))
-        # send primary key pk from the templates
-        journey = get_object_or_404(Journey, pk=self.kwargs.get("pk"))
-
-        try:
-            JourneyMember.objects.create(user=self.request.user, journey=journey)
-
-        except IntegrityError:
-            messages.warning(self.request, ("Warning, already a partner of {}'s Journey".format(journey.created_by)))
-
-        else:
-            messages.success(self.request, "You are now a partner of the {}'s journeys.".format(journey.created_by))
-
-        return super().get(request, *args, **kwargs)
-
-
-class LeaveJourney(LoginRequiredMixin, generic.RedirectView):
-
-    def get_redirect_url(self, *args, **kwargs):
-        return reverse("journeys:single", kwargs={"pk": self.kwargs.get("pk")})
-
-    def get(self, request, *args, **kwargs):
-
-        try:
-
-            membership = models.JourneyMember.objects.filter(
-                user=self.request.user,
-                # send pk through templates
-                journey__pk=self.kwargs.get("pk")
-            ).get()
-
-        except models.JourneyMember.DoesNotExist:
-            messages.warning(
-                self.request,
-                "You can't leave this Journey because you aren't in it."
-            )
-        else:
-            membership.delete()
-            messages.success(
-                self.request,
-                "You have successfully cancelled the Journey."
-            )
-        return super().get(request, *args, **kwargs)
+@login_required
+def leave_journey(request, pk):
+    journey = get_object_or_404(Journey, pk=pk)
+    user = request.user
+    Journey.remove_member(journey, user)
+    return HttpResponseRedirect(reverse("journeys:single", kwargs={"pk":pk}))
+#
+# class JoinJourney(LoginRequiredMixin, generic.RedirectView):
+#
+#     def get_redirect_url(self, *args, **kwargs):
+#         # return reverse("journeys:single", kwargs={"slug": self.kwargs.get("slug")})
+#         # send primary key pk from the templates
+#         return reverse("journeys:single", kwargs={"pk": self.kwargs.get("pk")})
+#
+#     def get(self, request, *args, **kwargs):
+#         # journeys = get_object_or_404(Journey, slug=self.kwargs.get("slug"))
+#         # send primary key pk from the templates
+#         journey = get_object_or_404(Journey, pk=self.kwargs.get("pk"))
+#
+#         try:
+#             JourneyMember.objects.create(user=self.request.user, journey=journey)
+#
+#         except IntegrityError:
+#             messages.warning(self.request, ("Warning, already a partner of {}'s Journey".format(journey.created_by)))
+#
+#         else:
+#             messages.success(self.request, "You are now a partner of the {}'s journeys.".format(journey.created_by))
+#
+#         return super().get(request, *args, **kwargs)
+#
+#
+# class LeaveJourney(LoginRequiredMixin, generic.RedirectView):
+#
+#     def get_redirect_url(self, *args, **kwargs):
+#         return reverse("journeys:single", kwargs={"pk": self.kwargs.get("pk")})
+#
+#     def get(self, request, *args, **kwargs):
+#
+#         try:
+#
+#             membership = models.JourneyMember.objects.filter(
+#                 user=self.request.user,
+#                 # send pk through templates
+#                 journey__pk=self.kwargs.get("pk")
+#             ).get()
+#
+#         except models.JourneyMember.DoesNotExist:
+#             messages.warning(
+#                 self.request,
+#                 "You can't leave this Journey because you aren't in it."
+#             )
+#         else:
+#             membership.delete()
+#             messages.success(
+#                 self.request,
+#                 "You have successfully cancelled the Journey."
+#             )
+#         return super().get(request, *args, **kwargs)

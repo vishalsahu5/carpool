@@ -10,4 +10,5 @@ urlpatterns = [
     url(r"^accounts/", include("accounts.urls", namespace="accounts")),
     url(r"^accounts/", include("django.contrib.auth.urls")),
     url(r"^journeys/", include("journeys.urls", namespace="journeys")),
+    # url(r'^notifications/', include('notify.urls', 'notifications')),
 ]
