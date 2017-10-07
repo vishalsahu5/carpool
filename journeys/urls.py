@@ -13,4 +13,5 @@ urlpatterns = [
     # url(r"^leave/(?P<pk>\d+)/$", views.LeaveJourney.as_view(), name="leave"),
     url(r"^join/(?P<pk>\d+)/$", views.join_journey, name="join"),
     url(r"^leave/(?P<pk>\d+)/$", views.leave_journey, name="leave"),
+    url(r"search/$", views.up, name='up'),
 ]

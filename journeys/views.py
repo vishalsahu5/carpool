@@ -8,10 +8,10 @@ from django.core.urlresolvers import reverse
 from django.db import IntegrityError
 from django.shortcuts import get_object_or_404
 from django.views import generic
-from journeys.models import Journey, JourneyMember
+from journeys.models import Journey
 from . import models
 from django.contrib.auth.decorators import login_required
-from .forms import JourneyForm
+from .forms import JourneyForm, SearchJourneyForm
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.contrib.auth.models import User
@@ -72,12 +72,44 @@ def join_journey(request, pk):
     Journey.add_member(journey, user)
     return HttpResponseRedirect(reverse("journeys:single", kwargs={"pk":pk}))
 
+
 @login_required
 def leave_journey(request, pk):
     journey = get_object_or_404(Journey, pk=pk)
     user = request.user
     Journey.remove_member(journey, user)
     return HttpResponseRedirect(reverse("journeys:single", kwargs={"pk":pk}))
+
+# todo
+# search journey view
+def up(request):
+
+    if request.method == 'POST':
+
+        search_journey_form = SearchJourneyForm(data=request.POST)
+
+        if search_journey_form.is_valid():
+            starting_from = search_journey_form.cleaned_data['starting_from']
+            going_to = search_journey_form.cleaned_data['going_to']
+
+            print(starting_from)
+            print(going_to)
+
+            journeys = Journey.objects.all().filter(starting_from=starting_from, going_to=going_to)
+
+            print(journeys)
+            context = {'form': search_journey_form, 'journeys': journeys}
+            return render(request, 'journeys/search.html', context)
+        else:
+            print(search_journey_form.errors)
+
+    else:
+        search_journey_form = SearchJourneyForm()
+
+    context = {'form': search_journey_form, 'journeys': None}
+    return render(request, 'journeys/search.html', context)
+
+
 #
 # class JoinJourney(LoginRequiredMixin, generic.RedirectView):
 #
