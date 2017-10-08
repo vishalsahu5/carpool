@@ -2,3 +2,5 @@ Django
 django-notify-x
 django-bootstrap3
 django-braces
+geopy
+geolocation-python

@@ -15,7 +15,7 @@
 			<p>Welcome to the Journeys Page! Select a Journey to start travelling!</p>
 	</div>
 	{% if user.is_authenticated %}
-	<a href="{% url 'journeys:create' %}" class="btn btn-md btn-fill btn-warning"><span class="glyphicon glyphicon-plus-sign"></span> Create New Journey!</a>
+	<a href="{% url 'journeys:create' user_id=user.pk %}" class="btn btn-md btn-fill btn-warning"><span class="glyphicon glyphicon-plus-sign"></span> Create New Journey!</a>
 	{% endif %}
 </div>
 {% endblock %}
@@ -24,13 +24,12 @@
 <div class="col-md-8">
 	<div class="list-group">
 		{% for journey in object_list %}
-		  <a class="list-group-item" href="{% url 'journeys:single' pk=journey.pk %}">
-			     <h3 class="title list-group-item-heading">{{ journey.created_by }}</h3>
-			<div class="list-group-item-text container-fluid">
-				{{ journey.description|safe }}
-                {{ journey.pk }}
-			</div>
-		</a>
+		    <a class="list-group-item" href="{% url 'journeys:single' pk=journey.pk %}">
+                <h3 class="title list-group-item-heading">{{ journey.created_by }}</h3>
+                <div class="list-group-item-text container-fluid">
+                    {{ journey.description|safe }}
+                </div>
+            </a>
 		{% endfor %}
 	</div>
 </div>

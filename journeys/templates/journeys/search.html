@@ -12,14 +12,18 @@
             {% bootstrap_form form %}
             <input type="submit" value="Search" class="btn btn-primary btn-large">
         </form>
-        {% if journeys %}
+
+        <div class="container" style="margin-top: 20px">
             {% for journey in journeys %}
-                {{ journey }}
+                <a class="list-group-item" href="{% url 'journeys:single' pk=journey.pk %}">
+                    <h3 class="title list-group-item-heading">{{ journey.created_by }}</h3>
+                    <div class="list-group-item-text container-fluid">
+                        {{ journey.description|safe }}
+                    </div>
+                </a>
             {% endfor %}
 
-        {% endif %}
-
-
+        </div>
 
         <script>
             function init() {
@@ -31,5 +35,81 @@
 
             google.maps.event.addDomListener(window, 'load', init);
         </script>
+
+        <!--
+            <script type="text/javascript">
+                function initialize() {
+                    var address1 = (document.getElementById('startingFromTextField'));
+                    var address2 = (document.getElementById('goingToTextField'));
+                    var autocomplete1 = new google.maps.places.Autocomplete(address1);
+                    var autocomplete2 = new google.maps.places.Autocomplete(address2);
+                    autocomplete1.setTypes(['geocode']);
+                    autocomplete2.setTypes(['geocode']);
+
+                    google.maps.event.addListener(autocomplete1, 'place_changed', function () {
+                        var place = autocomplete.getPlace();
+                        if (!place.geometry) {
+                            return;
+                        }
+
+                        var address = '';
+                        if (place.address_components) {
+                            address = [
+                                (place.address_components[0] && place.address_components[0].short_name || ''),
+                                (place.address_components[1] && place.address_components[1].short_name || ''),
+                                (place.address_components[2] && place.address_components[2].short_name || '')
+                            ].join(' ');
+                        }
+                    });
+                    google.maps.event.addListener(autocomplete2, 'place_changed', function () {
+                        var place = autocomplete.getPlace();
+                        if (!place.geometry) {
+                            return;
+                        }
+
+                        var address = '';
+                        if (place.address_components) {
+                            address = [
+                                (place.address_components[0] && place.address_components[0].short_name || ''),
+                                (place.address_components[1] && place.address_components[1].short_name || ''),
+                                (place.address_components[2] && place.address_components[2].short_name || '')
+                            ].join(' ');
+                        }
+                    });
+                }
+
+                function codeAddress() {
+                    geocoder1 = new google.maps.Geocoder();
+                    var address1 = document.getElementById("startingFromTextField").value;
+                    geocoder1.geocode({'address': address1}, function (results, status) {
+                        if (status == google.maps.GeocoderStatus.OK) {
+
+                            alert("Latitude: " + results[0].geometry.location.lat());
+                            alert("Longitude: " + results[0].geometry.location.lng());
+                        }
+
+                        else {
+                            alert("Geocode was not successful for the following reason: " + status);
+                        }
+                    });
+
+                    geocoder2 = new google.maps.Geocoder();
+                    var address2 = document.getElementById("goingToTextField").value;
+                    geocoder2.geocode({'address': address2}, function (results, status) {
+                        if (status == google.maps.GeocoderStatus.OK) {
+
+                            alert("Latitude: " + results[0].geometry.location.lat());
+                            alert("Longitude: " + results[0].geometry.location.lng());
+                        }
+
+                        else {
+                            alert("Geocode was not successful for the following reason: " + status);
+                        }
+                    });
+                }
+                google.maps.event.addDomListener(window, 'load', initialize);
+
+            </script>
+          -->
     </div>
 {% endblock %}

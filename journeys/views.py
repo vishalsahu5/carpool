@@ -15,6 +15,10 @@ from .forms import JourneyForm, SearchJourneyForm
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.contrib.auth.models import User
+from geopy import units
+from geopy.geocoders import GoogleV3, Nominatim
+from geopy.distance import great_circle,vincenty
+from carpool import settings
 
 # class CreateJourney(LoginRequiredMixin, SelectRelatedMixin, generic.CreateView):
 #     fields = ("starting_from", "going_to", "going_date", "going_time", "description")
@@ -28,6 +32,21 @@ from django.contrib.auth.models import User
 #         return super(CreateJourney, self).form_valid(form)
 
 
+#################################################################################################
+# Utility Functions defined here.
+#################################################################################################
+
+# todo:
+# A function to get the offset
+# parameters get longitude and latitude and the distance radius
+def get_offset(distance_range=10):
+    rough_distance = units.degrees(arcminutes=units.nautical(kilometers=distance_range)) * 2
+    return rough_distance
+
+
+##################################################################################################
+# Views functions below.
+##################################################################################################
 @login_required()
 def create_journey(request, user_id):
 
@@ -80,9 +99,10 @@ def leave_journey(request, pk):
     Journey.remove_member(journey, user)
     return HttpResponseRedirect(reverse("journeys:single", kwargs={"pk":pk}))
 
+
 # todo
 # search journey view
-def up(request):
+def search_journey(request):
 
     if request.method == 'POST':
 
@@ -92,13 +112,37 @@ def up(request):
             starting_from = search_journey_form.cleaned_data['starting_from']
             going_to = search_journey_form.cleaned_data['going_to']
 
-            print(starting_from)
-            print(going_to)
+            geolocator = GoogleV3(api_key=settings.GOOGLE_API_KEY)
 
-            journeys = Journey.objects.all().filter(starting_from=starting_from, going_to=going_to)
+            starting_location = geolocator.geocode(starting_from, timeout=10)
+            final_location = geolocator.geocode(going_to, timeout=10)
 
-            print(journeys)
-            context = {'form': search_journey_form, 'journeys': journeys}
+            offset = get_offset(5)
+            min_lat_from = starting_location.latitude - offset
+            max_lat_from = starting_location.latitude + offset
+            min_lon_from = starting_location.longitude - offset
+            max_lon_from = starting_location.longitude + offset
+
+            min_lat_to = final_location.latitude - offset
+            max_lat_to = final_location.latitude + offset
+            min_lon_to = final_location.longitude - offset
+            max_lon_to = final_location.longitude + offset
+
+            journeys = Journey.objects.all()
+            search_result = []
+            for journey in journeys:
+                start = geolocator.geocode(journey.starting_from, timeout=10)
+                end = geolocator.geocode(journey.going_to, timeout=10)
+                bool1 = min_lat_from <= start.latitude <= max_lat_from
+                bool2 = min_lon_from <= start.longitude <= max_lon_from
+                bool3 = min_lat_to <= end.latitude <= max_lat_to
+                bool4 = min_lon_to <= end.longitude <= max_lon_to
+
+                if bool1 and bool2 and bool3 and bool4:
+                    search_result.append(journey)
+
+            print(search_result)
+            context = {'form': search_journey_form, 'journeys': search_result}
             return render(request, 'journeys/search.html', context)
         else:
             print(search_journey_form.errors)
@@ -110,7 +154,6 @@ def up(request):
     return render(request, 'journeys/search.html', context)
 
 
-#
 # class JoinJourney(LoginRequiredMixin, generic.RedirectView):
 #
 #     def get_redirect_url(self, *args, **kwargs):

@@ -32,12 +32,12 @@
                     <li><a href="{% url 'journeys:all' %}" class="btn btn-simple">Journeys</a></li>
                     <li><a href="{% url 'journeys:create' user_id=user.pk %}" class="btn btn-simple">Create Journey</a></li>
                     <li><a href="{% url 'accounts:logout' %}" class="btn btn-simple">Log out</a></li>
-                    <li><a href="{% url 'journeys:up' %}" class="btn btn-simple">Search Journey</a></li>
+                    <li><a href="{% url 'journeys:search' %}" class="btn btn-simple">Search Journey</a></li>
                 {% else %}
                     <li><a href="{% url 'journeys:all' %}" class="btn btn-simple">Journeys</a></li>
                     <li><a href="{% url 'accounts:login' %}" class="btn btn-simple">Log in</a></li>
                     <li><a href="{% url 'accounts:signup' %}" class="btn btn-simple">Sign up</a></li>
-                    <li><a href="{% url 'journeys:up' %}" class="btn btn-simple">Search Journey</a></li>
+                    <li><a href="{% url 'journeys:search' %}" class="btn btn-simple">Search Journey</a></li>
 
                 {% endif %}
             </ul>
