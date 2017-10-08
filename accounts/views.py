@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import User
 from django.http import Http404
-from journeys.models import Journey,JourneyMember
+from journeys.models import Journey
 
 
 def signup(request):

@@ -49,12 +49,12 @@ class Journey(models.Model):
 # at some point in future. For now, ignore it. This model is to
 # be used as a "through" in ManyToManyField. I am not using it to maintain
 # code simplicity.
-class JourneyMember(models.Model):
-    journey = models.ForeignKey(Journey, related_name="memberships")
-    user = models.ForeignKey(User, related_name='user_journeys')
-
-    def __str__(self):
-        return self.user.username
-
-    class Meta:
-        unique_together = ("journey", "user")
+# class JourneyMember(models.Model):
+#     journey = models.ForeignKey(Journey, related_name="memberships")
+#     user = models.ForeignKey(User, related_name='user_journeys')
+#
+#     def __str__(self):
+#         return self.user.username
+#
+#     class Meta:
+#         unique_together = ("journey", "user")

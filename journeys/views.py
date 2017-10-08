@@ -1,15 +1,15 @@
-from django.contrib import messages
-from django.contrib.auth.mixins import(
-    LoginRequiredMixin,
-    PermissionRequiredMixin
-)
-from braces.views import SelectRelatedMixin
+# from django.contrib import messages
+# from django.contrib.auth.mixins import(
+#     LoginRequiredMixin,
+#     PermissionRequiredMixin
+# )
+# from braces.views import SelectRelatedMixin
 from django.core.urlresolvers import reverse
-from django.db import IntegrityError
+# from django.db import IntegrityError
 from django.shortcuts import get_object_or_404
 from django.views import generic
 from journeys.models import Journey
-from . import models
+# from . import models
 from django.contrib.auth.decorators import login_required
 from .forms import JourneyForm, SearchJourneyForm
 from django.http import HttpResponseRedirect
