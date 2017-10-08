@@ -9,12 +9,10 @@ h1,h2 {
 }
 
 #header{
-    margin:-25px;
+    margin:-20px;
     width: 100%;
     height: 380px;
     background-repeat:no-repeat !important;
-
-    /*background-size:contain;*/
-    /*background-repeat:no-repeat;*/
+    display: inline-block !important;
     background-size: cover !important;
 }

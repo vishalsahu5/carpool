@@ -1,9 +1,12 @@
 {% extends "base.html" %}
 {% load staticfiles %}
-    {% block head %}
-        <link rel="stylesheet" type="text/css" href="{% static "css/stylesheet.css" %}">
-    {% endblock %}
-{% block outer %}
+
+
+{% block head %}
+    <link rel="stylesheet" type="text/css" href="{% static "css/stylesheet.css" %}">
+{% endblock %}
+
+{% block precontent %}
     <div id="header"> </div>
 {% endblock %}
 
