@@ -1,15 +1,5 @@
 {% extends 'base.html' %}
-{% load notifications_tags %}
 {% block precontent %}
-    {% for msg in notification_list %}
-        <h5>{{ msg.verb }}</h5>
-        <br>
-    {% endfor %}
-
-    {% notifications_unread as unread_count %}
-    {% if unread_count %}
-        You have <strong>{{ unread_count }}</strong> unread notifications.
-    {% endif %}
 
 {% endblock %}
 

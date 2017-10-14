@@ -84,6 +84,5 @@ def profile(request):
 
     context = {'my_journeys': my_journeys,
                'going_with_others': going_with_others,
-               'notification_list': notification_list,
                }
     return render(request, 'accounts/profile.html', context)
