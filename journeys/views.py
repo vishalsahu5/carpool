@@ -16,8 +16,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.contrib.auth.models import User
 from geopy import units
-from geopy.geocoders import GoogleV3, Nominatim
-from geopy.distance import great_circle,vincenty
+from geopy.geocoders import GoogleV3
 from carpool import settings
 
 # class CreateJourney(LoginRequiredMixin, SelectRelatedMixin, generic.CreateView):
@@ -117,7 +116,7 @@ def search_journey(request):
             starting_location = geolocator.geocode(starting_from, timeout=10)
             final_location = geolocator.geocode(going_to, timeout=10)
 
-            offset = get_offset(5)
+            offset = get_offset(25)
             min_lat_from = starting_location.latitude - offset
             max_lat_from = starting_location.latitude + offset
             min_lon_from = starting_location.longitude - offset

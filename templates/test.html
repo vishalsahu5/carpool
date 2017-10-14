@@ -1,9 +1,18 @@
 {% extends "base.html" %}
+{% load staticfiles %}
+
+{% block head %}
+{% endblock %}
+
+{% block precontent %}
+{% endblock %}
+
 {% block content %}
-<div class="container">
-  <h1>You are now logged in!</h1>
-  <h2>
-      <a href="{% url 'journeys:create' user_id=user.pk %}">Create </a> or <a href="{% url 'journeys:up' %}">find</a>  a journey!
-  </h2>
-</div>
+    <div class="container">
+        <h1>You are now logged in!</h1>
+        <h2>
+            <a href="{% url 'journeys:create' user_id=user.pk %}">Create </a> or <a href="{% url 'journeys:search' %}">find</a>
+            a journey!
+        </h2>
+    </div>
 {% endblock %}

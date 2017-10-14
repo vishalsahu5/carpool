@@ -43,7 +43,7 @@ class Journey(models.Model):
         super().save(*args, **kwargs)
 
     class Meta:
-        ordering = ["created_at"]
+        ordering = ["-created_at"]
 
 # This is not used for now. We might decide to shift to it
 # at some point in future. For now, ignore it. This model is to

@@ -40,9 +40,7 @@ INSTALLED_APPS = [
     'accounts',
     'journeys',
     'bootstrap3',
-    # 'location_field.apps.DefaultConfig',
-    # 'places',
-    # 'notify',
+    'notification'
 ]
 
 MIDDLEWARE = [
@@ -136,4 +134,5 @@ PLACES_MAPS_API_KEY = 'AIzaSyD9KddjtOZv_GEF3GKndj1y_x3nk7fUoF4'
 MAP_WIDGET_HEIGHT = 480
 MAP_OPTIONS = {}
 MARKER_OPTIONS = {}
+# Don't use this API key on your system. Use google geocoding API key.
 GOOGLE_API_KEY = 'AIzaSyCqFbhMMDPg8D_lDSPPSrNBrcfoaUrZ4rs'

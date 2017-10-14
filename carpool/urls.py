@@ -1,5 +1,6 @@
 from django.conf.urls import include, url
 from django.contrib import admin
+import notifications.urls
 from . import views
 
 urlpatterns = [
@@ -10,5 +11,5 @@ urlpatterns = [
     url(r"^accounts/", include("accounts.urls", namespace="accounts")),
     url(r"^accounts/", include("django.contrib.auth.urls")),
     url(r"^journeys/", include("journeys.urls", namespace="journeys")),
-    # url(r'^notifications/', include('notify.urls', 'notifications')),
+    url(r"^notification/", include("notification.urls", namespace="notification")),
 ]

@@ -1,6 +1,20 @@
 {% extends 'base.html' %}
+{% load notifications_tags %}
+{% block precontent %}
+    {% for msg in notification_list %}
+        <h5>{{ msg.verb }}</h5>
+        <br>
+    {% endfor %}
+
+    {% notifications_unread as unread_count %}
+    {% if unread_count %}
+        You have <strong>{{ unread_count }}</strong> unread notifications.
+    {% endif %}
+
+{% endblock %}
 
 {% block content %}
+
     <h2>{{ user.username }}</h2>
     <ul>
         <li>Username: {{ user.username }}</li>
@@ -9,7 +23,6 @@
 	<div class="card card-with-shadow">
 		<div class="content">
 			<ul class="list-unstyled">
-				{# {% get_user_groups as user_groups %}#}
             {% if my_journeys %}
                 <h5 class="title">Your Journeys</h5>
                 {% for journey in my_journeys %}

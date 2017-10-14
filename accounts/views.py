@@ -75,22 +75,15 @@ def update_profile(request):
 
 @login_required
 def profile(request):
-    # try:
-    #     journey_user = Journey.objects.filter(created_by=username)
-    # except User.DoesNotExist:
-    #     raise Http404
-
-    # context = {'journey_user': journey_user}
 
     user = User.objects.get(username=request.user.username)
     my_journeys = Journey.objects.all().filter(created_by=user)
 
     going_with_others = Journey.objects.all().filter(members=user)
-    for foo in going_with_others:
-        print("*******")
-        print(foo.created_at)
-        print("*******")
     going_with_others = set(going_with_others)-set(my_journeys)
-    # print(going_with_others)
-    context = {'my_journeys': my_journeys, 'going_with_others': going_with_others}
+
+    context = {'my_journeys': my_journeys,
+               'going_with_others': going_with_others,
+               'notification_list': notification_list,
+               }
     return render(request, 'accounts/profile.html', context)
