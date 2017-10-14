@@ -3,6 +3,13 @@
     margin-bottom: 100px;
 }
 
+.num {
+  position: absolute;
+  right: 11px;
+  top: 6px;
+  color: #fff;
+}
+
 .full {
     width: 100%;
 }

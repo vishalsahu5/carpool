@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 {% load staticfiles %}
 {% load bootstrap3 %}
+{% load app_filters %}
 <html>
 <head>
     <meta charset="utf-8">
@@ -32,6 +33,11 @@
         {% endif %}
         <ul class="nav navbar-nav navbar-right">
             {% if user.is_authenticated %}
+                <li><a href="{% url 'notification:all' %}" class="btn btn-simple">
+                    <span class="glyphicon glyphicon-bell">
+                         <span class="num">{{ user|unread_count }}</span>
+                    </span>
+                </a></li>
                 <li><a href="{% url 'journeys:all' %}" class="btn btn-simple">Journeys</a></li>
                 <li><a href="{% url 'journeys:create' user_id=user.pk %}" class="btn btn-simple">Create Journey</a></li>
                 <li><a href="{% url 'accounts:logout' %}" class="btn btn-simple">Log out</a></li>
