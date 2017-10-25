@@ -1,12 +1,11 @@
 {% extends "base.html" %}
 {% load bootstrap3 %}
 
-
 {% block content %}
     <div class="container">
         <h1>Search</h1>
-        <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places"></script>
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+        <script src="https://maps.googleapis.com/maps/api/js?key={{ api_key }}&libraries=places&callback=onLoaded" async
+                defer></script>
         <form method="POST">
             {% csrf_token %}
             {% bootstrap_form form %}
@@ -24,18 +23,14 @@
             {% endfor %}
 
         </div>
-
         <script>
-            function init() {
+            var onLoaded = function () {
                 var input1 = document.getElementById('startingFromTextField');
                 var input2 = document.getElementById('goingToTextField');
                 var autocomplete = new google.maps.places.Autocomplete(input1);
                 var autocomplete2 = new google.maps.places.Autocomplete(input2);
             }
-
-            google.maps.event.addDomListener(window, 'load', init);
         </script>
-
         <!--
             <script type="text/javascript">
                 function initialize() {

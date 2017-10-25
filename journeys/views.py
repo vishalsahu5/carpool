@@ -83,7 +83,7 @@ def create_journey(request, user_id):
     else:
         journey_form = JourneyForm()
 
-    context = {'form': journey_form}
+    context = {'form': journey_form, 'api_key': settings.PLACES_MAPS_API_KEY}
     return render(request, 'journeys/journey_form.html', context)
 
 
@@ -162,7 +162,7 @@ def search_journey(request):
             #     if bool1 and bool2 and bool3 and bool4:
             #         search_result.append(journey)
 
-            context = {'form': search_journey_form, 'journeys': search_result}
+            context = {'form': search_journey_form, 'journeys': search_result, 'api_key': settings.PLACES_MAPS_API_KEY}
             return render(request, 'journeys/search.html', context)
         else:
             print(search_journey_form.errors)
@@ -170,7 +170,7 @@ def search_journey(request):
     else:
         search_journey_form = SearchJourneyForm()
 
-    context = {'form': search_journey_form, 'journeys': None}
+    context = {'form': search_journey_form, 'journeys': None, 'api_key': settings.PLACES_MAPS_API_KEY}
     return render(request, 'journeys/search.html', context)
 
 # class JoinJourney(LoginRequiredMixin, generic.RedirectView):

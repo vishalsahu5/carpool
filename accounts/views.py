@@ -7,6 +7,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.models import User
 from django.http import Http404
 from journeys.models import Journey
+from carpool import settings
 
 
 def signup(request):
@@ -54,7 +55,7 @@ def signup(request):
 
     # This is the render and context dictionary to feed
     # back to the signup.html file page.
-    context = {'user_form': user_form, 'profile_form': profile_form}
+    context = {'user_form': user_form, 'profile_form': profile_form, 'api_key': settings.PLACES_MAPS_API_KEY}
     return render(request, 'accounts/signup.html', context)
 
 
