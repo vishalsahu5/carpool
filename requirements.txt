@@ -3,3 +3,4 @@ django-bootstrap3
 django-braces
 geopy
 geolocation-python
+psycopg2
