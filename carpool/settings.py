@@ -85,18 +85,6 @@ WSGI_APPLICATION = 'carpool.wsgi.application'
 #         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
 #     }
 # }
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'carpool',
-#         'USER': 'vishal',
-#         'PASSWORD': 'password',
-#         'HOST': '139.59.65.208',
-#         'PORT': '5432',
-#     }
-# }
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
