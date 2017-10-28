@@ -2,6 +2,7 @@
 {% load staticfiles %}
 {% load bootstrap3 %}
 {% load app_filters %}
+{% load notification_tags %}
 <html>
 <head>
     <meta charset="utf-8">
@@ -15,15 +16,57 @@
 
     <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="{% static "css/master.css" %}">
+   <style>
+        .dropbtn {
+            /* background-color: #4CAF50; */
+            color: white;
+            padding: 16px;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+        }
 
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 200px;
+            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+        }
+
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #f1f1f1
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .dropdown:hover .dropbtn {
+            background-color: #3e8e41;
+        }
+    </style>
     {% block head %}
     {% endblock %}
+
 </head>
 <body>
 <!-- Navbar -->
 <nav class="navbar mynav navbar-inverse" role="navigation" id="navbar">
     <div class="container">
-
         <a class="navbar-brand mynav" href="{% url 'home' %}">Ride Share</a>
         {% if user.is_authenticated %}
             <a href="{% url 'accounts:profile' %}" class="navbar-text">
@@ -33,11 +76,27 @@
         {% endif %}
         <ul class="nav navbar-nav navbar-right">
             {% if user.is_authenticated %}
-                <li><a href="{% url 'notification:all' %}" class="btn btn-simple">
-                    <span class="glyphicon glyphicon-bell">
-                         <span class="num">{{ user|unread_count }}</span>
-                    </span>
-                </a></li>
+                <li>
+                    <div class="dropdown">
+                        <a href="{% url 'notification:all' %}" class="dropbtn btn btn-simple">
+                        <span class="glyphicon glyphicon-bell">
+                             <span class="num">{{ user|unread_count }}</span>
+                        </span>
+                        </a>
+                        <div class="dropdown-content">
+                            {% all_notifications user as notification_list %}
+                            {% for notification in notification_list %}
+                                <a class="list-group-item"
+                                   href="{% url 'notification:delete' notification_id=notification.pk %}">
+                                    <h5 class="title list-group-item-heading">{{ notification.title }}</h5>
+                                    <div class="list-group-item-text container-fluid">
+                                        {{ notification.message|truncatechars:20|safe }}
+                                    </div>
+                                </a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </li>
                 <li><a href="{% url 'journeys:all' %}" class="btn btn-simple">Journeys</a></li>
                 <li><a href="{% url 'journeys:create' user_id=user.pk %}" class="btn btn-simple">Create Journey</a></li>
                 <li><a href="{% url 'accounts:logout' %}" class="btn btn-simple">Log out</a></li>
@@ -53,20 +112,20 @@
         </ul>
     </div>
 </nav>
-    <!-- Below Navbar, Header and stuff -->
-    {% block precontent %}
-    {% endblock %}
+<!-- Below Navbar, Header and stuff -->
+{% block precontent %}
+{% endblock %}
 <!-- Main Content Body -->
-    <div class="container mycontent">
-        {% block content %}
-        {% endblock %}
-    </div>
+<div class="container mycontent">
+    {% block content %}
+    {% endblock %}
+</div>
 
 
 <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="{% static "js/bootstrap.min.js" %}"></script>
-    <script src="{% static "carpool/js/master.js" %}"></script>
-    <script src="{% static "js/stylesheet.js" %}"></script>
+<script src="{% static "js/bootstrap.min.js" %}"></script>
+<script src="{% static "carpool/js/master.js" %}"></script>
+<script src="{% static "js/stylesheet.js" %}"></script>
 </body>
 <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
 <footer>
