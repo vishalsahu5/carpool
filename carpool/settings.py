@@ -41,7 +41,6 @@ INSTALLED_APPS = [
     'journeys',
     'bootstrap3',
     'notification',
-    'django_forms_bootstrap',
 ]
 
 MIDDLEWARE = [
