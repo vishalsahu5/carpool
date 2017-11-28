@@ -8,13 +8,15 @@
     <h2>{{ user.username }}</h2>
     <ul>
         <li>Username: {{ user.username }}</li>
+        <li>Email: {{ user.email }}</li>
         <li>Location: {{ user.profile.location }}</li>
+        <div class="jumbotron">Bio: {{ user.profile.bio }}</></div>
     </ul>
 	<div class="card card-with-shadow">
 		<div class="content">
 			<ul class="list-unstyled">
             {% if my_journeys %}
-                <h5 class="title">Your Journeys</h5>
+                <h3 class="title">Your Journeys</h3>
                 {% for journey in my_journeys %}
 				<li class="group li-with-bullet">
 					<a href="{% url 'journeys:single' pk=journey.pk %}">{{ journey.description }}</a>
