@@ -25,9 +25,9 @@ def create_welcome_message(sender, **kwargs):
                                     message='Thanks for signing up!')
         SUBJECT = 'Welcome to our site !'
         MESSAGE = 'You have now signed up for our site.'
-        FROM = 'noreply@somesite.com'
+        FROM = 'noreply.carpoolproject@gmail.com'
         TO = [kwargs.get('instance').email]
-        send_mail(SUBJECT, MESSAGE, FROM, TO, fail_silently=False)
+        send_mail(SUBJECT, MESSAGE, FROM, TO, fail_silently=True)
 
 
 @receiver(m2m_changed, sender=Journey.members.through)
@@ -43,9 +43,9 @@ def journey_members_changed_message(sender, **kwargs):
                                     message=message)
         SUBJECT = 'User added to your journey'
         MESSAGE = message
-        FROM = 'noreply@somesite.com'
-        TO = [kwargs.get('instance').email]
-        send_mail(SUBJECT, MESSAGE, FROM, TO, fail_silently=False)
+        FROM = 'noreply.carpoolproject@gmail.com'
+        TO = [instance.created_by.email]
+        send_mail(SUBJECT, MESSAGE, FROM, TO, fail_silently=True)
     elif kwargs['action'] == 'post_remove':
         message = '{} is removed from your journey {}'.format(user, instance)
         title = 'A user is removed'
@@ -54,6 +54,6 @@ def journey_members_changed_message(sender, **kwargs):
                                     message=message)
         SUBJECT = 'User is removed from your journey'
         MESSAGE = message
-        FROM = 'noreply@somesite.com'
-        TO = [kwargs.get('instance').email]
-        send_mail(SUBJECT, MESSAGE, FROM, TO, fail_silently=False)
+        FROM = 'noreply.carpoolproject@gmail.com'
+        TO = [instance.created_by.email]
+        send_mail(SUBJECT, MESSAGE, FROM, TO, fail_silently=True)
