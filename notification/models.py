@@ -4,6 +4,7 @@ from django.db.models.signals import post_save, m2m_changed
 from django.dispatch import receiver
 from journeys.models import Journey
 from django.shortcuts import get_object_or_404
+from django.core.mail import send_mail
 
 
 class Notification(models.Model):
@@ -22,6 +23,11 @@ def create_welcome_message(sender, **kwargs):
         Notification.objects.create(user=kwargs.get('instance'),
                                     title='Welcome to our site',
                                     message='Thanks for signing up!')
+        SUBJECT = 'Welcome to our site !'
+        MESSAGE = 'You have now signed up for our site.'
+        FROM = 'noreply@somesite.com'
+        TO = [kwargs.get('instance').email]
+        send_mail(SUBJECT, MESSAGE, FROM, TO, fail_silently=False)
 
 
 @receiver(m2m_changed, sender=Journey.members.through)
@@ -35,9 +41,19 @@ def journey_members_changed_message(sender, **kwargs):
         Notification.objects.create(user=instance.created_by,
                                     title=title,
                                     message=message)
+        SUBJECT = 'User added to your journey'
+        MESSAGE = message
+        FROM = 'noreply@somesite.com'
+        TO = [kwargs.get('instance').email]
+        send_mail(SUBJECT, MESSAGE, FROM, TO, fail_silently=False)
     elif kwargs['action'] == 'post_remove':
         message = '{} is removed from your journey {}'.format(user, instance)
         title = 'A user is removed'
         Notification.objects.create(user=instance.created_by,
                                     title=title,
                                     message=message)
+        SUBJECT = 'User is removed from your journey'
+        MESSAGE = message
+        FROM = 'noreply@somesite.com'
+        TO = [kwargs.get('instance').email]
+        send_mail(SUBJECT, MESSAGE, FROM, TO, fail_silently=False)

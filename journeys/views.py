@@ -74,6 +74,8 @@ def create_journey(request, user_id):
             journey.going_to_longitude = final_location.longitude
 
             journey.save()
+            # also make the user join that journey
+            Journey.add_member(journey, user)
 
             return HttpResponseRedirect(reverse('journeys:single', kwargs={"pk": journey.pk}))
 
@@ -111,8 +113,6 @@ def leave_journey(request, pk):
     return HttpResponseRedirect(reverse("journeys:single", kwargs={"pk": pk}))
 
 
-# todo
-# search journey view
 def search_journey(request):
     if request.method == 'POST':
 

@@ -37,10 +37,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_extensions',
     'accounts',
     'journeys',
     'bootstrap3',
     'notification',
+    'django-dia',
 ]
 
 MIDDLEWARE = [
@@ -145,3 +147,11 @@ MAP_OPTIONS = {}
 MARKER_OPTIONS = {}
 # Don't use this API key on your system. Use google geocoding API key.
 GOOGLE_API_KEY = 'AIzaSyCqFbhMMDPg8D_lDSPPSrNBrcfoaUrZ4rs'
+
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'noreply.carpoolproject@gmail.com'
+EMAIL_HOST_PASSWORD = 'localhost8000'
+DEFAULT_FROM_EMAIL = 'noreply.carpoolproject@somesite.com'
+DEFAULT_TO_EMAIL = ''
